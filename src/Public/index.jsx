@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation} from 'react-router-dom';
+import { Routes, Route, useLocation} from 'react-router-dom';
 
+import Header from './components/Header';
 import Login from './pages/Login';
 
 function Public(){
@@ -8,6 +9,7 @@ function Public(){
     console.log(path)
 return (
     <Fragment>
+        <Header/>
         <Routes>
             <Route exact path={path} element={ <Login/> } />
         </Routes>

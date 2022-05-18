@@ -1,5 +1,12 @@
+import { Fragment } from 'react';
+import styled from 'styled-components';
+
 function Login(){
-    return <h1>Connexion</h1>
+    return (
+        <Fragment>
+            Connexion
+        </Fragment>
+    )
 }
 
 export default Login;
