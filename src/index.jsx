@@ -11,12 +11,12 @@ import Admin from './Admin';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GlobalStyle/>
     <Router>
+    <GlobalStyle/>
       <Routes>
-        <Route path="/" element={ <Public /> } />
-        <Route path='/user' element={ <User/> }/>
-        <Route path='/admin' element={ <Admin/> } />
+        <Route exact path="/*" element={ <Public /> } />
+        <Route exact path='/user/*' element={ <User/> }/>
+        <Route exact path='/admin/*' element={ <Admin/> } />
       </Routes>
     </Router>
   </React.StrictMode>
