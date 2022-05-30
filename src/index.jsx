@@ -8,6 +8,7 @@ import './utils/libs/fontawesome';
 import Public from './Public';
 import User from './User';
 import Admin from './Admin';
+import Footer from './Public/components/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,5 +21,6 @@ root.render(
             <Route exact path="/admin/*" element={<Admin />} />
          </Routes>
       </Router>
+      <Footer />
    </React.StrictMode>
 );
