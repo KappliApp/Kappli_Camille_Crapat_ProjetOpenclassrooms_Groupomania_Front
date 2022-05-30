@@ -37,6 +37,12 @@ const ConnexionFormStyle = styled.form`
    height: 300px;
 `;
 
+const ConnexionErrorStyle = styled.div`
+   color: ${colors.error};
+   font-size: 20px;
+   font-weight: bold;
+`;
+
 const ConnexionButtonStyle = styled.button`
    background-color: ${colors.primary};
    width: 82%;
@@ -46,7 +52,11 @@ const ConnexionButtonStyle = styled.button`
    font-weight: bold;
    font-size: 18px;
    color: ${colors.white};
+   margin-top: 20px;
    cursor: pointer;
+   &:hover {
+      background-color: #1b3765;
+   }
 `;
 
 function Login() {
@@ -67,6 +77,9 @@ function Login() {
                   placeholder="Mot de passe"
                   res="ok"
                />
+               <ConnexionErrorStyle>
+                  Votre adresse e-mail contient une erreur !
+               </ConnexionErrorStyle>
                <ConnexionButtonStyle>Connexion</ConnexionButtonStyle>
             </ConnexionFormStyle>
          </ConnexionContainerStyle>
