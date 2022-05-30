@@ -5,6 +5,8 @@ const colors = {
     black: '#000',
     grey_light: '#f6f6f6',
     grey_dark: '#6F6F6F',
+    ok: '#28B463',
+    error: '#C0392B',
 }
 
 export default colors;
