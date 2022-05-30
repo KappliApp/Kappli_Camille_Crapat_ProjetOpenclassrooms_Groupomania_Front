@@ -1,7 +1,8 @@
-import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import colors from '../../../utils/styles/colors';
+
+import Input from './components/Input';
 
 const ConnexionStyle = styled.div`
    background-color: ${colors.primary};
@@ -36,16 +37,6 @@ const ConnexionFormStyle = styled.form`
    height: 300px;
 `;
 
-const ConnexionInputStyle = styled.input`
-   width: 82%;
-   height: 55px;
-   border-radius: 7px;
-   border: 1px solid ${colors.grey_dark};
-   margin-bottom: 35px;
-   padding-left: 15px;
-   font-size: 18px;
-`;
-
 const ConnexionButtonStyle = styled.button`
    background-color: ${colors.primary};
    width: 82%;
@@ -64,10 +55,17 @@ function Login() {
          <ConnexionContainerStyle>
             <ConnexionTitleStyle>Connexion</ConnexionTitleStyle>
             <ConnexionFormStyle>
-               <ConnexionInputStyle name="mail" placeholder="Adresse e-mail" />
-               <ConnexionInputStyle
+               <Input
+                  type="email"
+                  name="mail"
+                  placeholder="Adresse e-mail"
+                  res="error"
+               />
+               <Input
+                  type="password"
                   name="password"
                   placeholder="Mot de passe"
+                  res="ok"
                />
                <ConnexionButtonStyle>Connexion</ConnexionButtonStyle>
             </ConnexionFormStyle>
