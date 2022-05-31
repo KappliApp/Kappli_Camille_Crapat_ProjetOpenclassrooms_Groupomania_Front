@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import AllPosts from './pages/AllPosts';
