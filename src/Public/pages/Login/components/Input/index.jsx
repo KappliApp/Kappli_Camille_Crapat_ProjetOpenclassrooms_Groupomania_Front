@@ -37,21 +37,42 @@ const ConnexionInputStyle = styled.input`
    ${(res) => res.res === 'ok' && `border: 1px solid ${colors.ok}`}
 `;
 
-function Input({ type, name, placeholder, res }) {
+function Input({ type, name, placeholder, value, setValue, error, setError }) {
+   function verif(input, type) {
+      const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      if (type === 'email') {
+         if (!input || input === '' || !regexMail.test(input)) {
+            setError(true);
+         } else {
+            setError(false);
+         }
+      } else if (type === 'password') {
+         if (!input || input === '') {
+            setError(true);
+         } else {
+            setError(false);
+         }
+      }
+   }
+
    return (
       <ConnexionInputContainerStyle>
          <ConnexionInputStyle
             type={type}
             name={name}
             placeholder={placeholder}
-            res={res}
+            res={(error === true && 'error') || (error === false && 'ok')}
+            onChange={(e) => {
+               verif(e.target.value, type);
+               setValue(e.target.value);
+            }}
          />
-         {res === 'error' && (
+         {error === true && (
             <ConnexionErrorStyle>
                <FontAwesomeIcon icon={['fas', 'circle-exclamation']} />
             </ConnexionErrorStyle>
          )}
-         {res === 'ok' && (
+         {error === false && (
             <ConnexionOkStyle>
                <FontAwesomeIcon icon={['fas', 'circle-check']} />
             </ConnexionOkStyle>

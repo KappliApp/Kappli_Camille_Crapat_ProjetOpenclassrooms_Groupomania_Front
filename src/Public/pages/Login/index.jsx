@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import colors from '../../../utils/styles/colors';
@@ -60,6 +61,53 @@ const ConnexionButtonStyle = styled.button`
 `;
 
 function Login() {
+   const [mail, setMail] = useState('');
+   const [errorMail, setErrorMail] = useState();
+   const [errorPassword, setErrorPassword] = useState();
+   const [password, setPassword] = useState('');
+   const [messageError, setMessageError] = useState('');
+
+   function send(e) {
+      e.preventDefault();
+      const regexMail = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
+      if (!mail || mail === '') {
+         setMessageError("Vous n'avez pas saisi votre adresse e-mail !");
+      } else if (!regexMail.test(mail)) {
+         setMessageError('Votre adresse e-mail contient une erreur !');
+      } else if (!password || password === '') {
+         setMessageError("Vous n'avez pas saisi votre mot de passe !");
+      } else {
+         setMessageError('');
+         fetch('http://localhost:20110/api/users/login', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+               mail: mail,
+               password: password,
+            }),
+         })
+            .then(function (res) {
+               return res.json();
+            })
+            .then(function (data) {
+               console.log(data);
+               if (data.error) {
+                  setMessageError(data.error);
+                  if (data.error !== 'Votre compte a été bloqué !') {
+                     setErrorMail(true);
+                     setErrorPassword(true);
+                  }
+               }
+            })
+            .catch(function (err) {
+               setMessageError(
+                  'Une erreur est survenu lors de la connexion au serveur !'
+               );
+            });
+      }
+   }
    return (
       <ConnexionStyle>
          <ConnexionContainerStyle>
@@ -69,18 +117,24 @@ function Login() {
                   type="email"
                   name="mail"
                   placeholder="Adresse e-mail"
-                  res="error"
+                  value={mail}
+                  setValue={setMail}
+                  error={errorMail}
+                  setError={setErrorMail}
                />
                <Input
                   type="password"
                   name="password"
                   placeholder="Mot de passe"
-                  res="ok"
+                  value={password}
+                  setValue={setPassword}
+                  error={errorPassword}
+                  setError={setErrorPassword}
                />
-               <ConnexionErrorStyle>
-                  Votre adresse e-mail contient une erreur !
-               </ConnexionErrorStyle>
-               <ConnexionButtonStyle>Connexion</ConnexionButtonStyle>
+               <ConnexionErrorStyle>{messageError}</ConnexionErrorStyle>
+               <ConnexionButtonStyle onClick={(e) => send(e)}>
+                  Connexion
+               </ConnexionButtonStyle>
             </ConnexionFormStyle>
          </ConnexionContainerStyle>
       </ConnexionStyle>
