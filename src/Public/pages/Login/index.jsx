@@ -66,18 +66,24 @@ function Login() {
    const [errorPassword, setErrorPassword] = useState();
    const [password, setPassword] = useState('');
    const [messageError, setMessageError] = useState('');
+   const [user, setUser] = useState();
 
    function send(e) {
       e.preventDefault();
       const regexMail = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
       if (!mail || mail === '') {
          setMessageError("Vous n'avez pas saisi votre adresse e-mail !");
+         setErrorMail(true);
       } else if (!regexMail.test(mail)) {
          setMessageError('Votre adresse e-mail contient une erreur !');
+         setErrorMail(true);
       } else if (!password || password === '') {
          setMessageError("Vous n'avez pas saisi votre mot de passe !");
+         setErrorPassword(true);
       } else {
          setMessageError('');
+         setErrorMail(false);
+         setErrorPassword(false);
          fetch('http://localhost:20110/api/users/login', {
             method: 'POST',
             headers: {
@@ -92,13 +98,16 @@ function Login() {
                return res.json();
             })
             .then(function (data) {
-               console.log(data);
                if (data.error) {
                   setMessageError(data.error);
                   if (data.error !== 'Votre compte a été bloqué !') {
                      setErrorMail(true);
                      setErrorPassword(true);
                   }
+               } else {
+                  setUser(data);
+                  localStorage.setItem('token', user.token);
+                  localStorage.setItem('user', JSON.stringify(user.user));
                }
             })
             .catch(function (err) {
