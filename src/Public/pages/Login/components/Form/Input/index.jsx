@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import colors from '../../../../../utils/styles/colors';
+import colors from '../../../../../../utils/styles/colors';
 
 const ConnexionInputContainerStyle = styled.div`
    width: 82%;
