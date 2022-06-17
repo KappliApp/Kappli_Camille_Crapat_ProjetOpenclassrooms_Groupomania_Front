@@ -69,7 +69,7 @@ function Form() {
    let navigate = useNavigate();
 
    const verif = () => {
-      const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; //eslint-disable-line
       if (mail === '' || !mail) {
          setMessageError('Vous devez saisir une adresse e-mail !');
          setErrorMail(true);

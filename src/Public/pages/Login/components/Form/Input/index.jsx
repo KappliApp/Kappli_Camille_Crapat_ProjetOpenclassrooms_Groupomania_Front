@@ -48,7 +48,7 @@ function Input({
    setMessageError,
 }) {
    const verif = (input, type) => {
-      const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; //eslint-disable-line
       if (type === 'email') {
          if (!input || input === '') {
             setMessageError('Vous devez saisir une adresse e-mail !');
