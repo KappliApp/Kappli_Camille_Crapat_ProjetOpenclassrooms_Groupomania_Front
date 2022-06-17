@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 
 import colors from '../../../utils/styles/colors';
 
-import Profiles from '../Profiles';
+import Profiles from '../Profile';
 import ImagePost from './ImagePost';
 import DatePost from '../DatePost';
 import Button from './Button';
