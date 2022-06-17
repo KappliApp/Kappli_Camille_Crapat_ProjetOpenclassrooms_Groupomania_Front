@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import colors from '../../../../utils/styles/colors';
+import colors from '../../../utils/styles/colors';
 
 import logo from '../../../assets/img/icon-left-font-monochrome-white.svg';
 
