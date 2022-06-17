@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 
 import colors from '../../../../../utils/styles/colors';
 
@@ -20,6 +21,9 @@ const ConnexionErrorStyle = styled.div`
 `;
 
 const ConnexionButtonStyle = styled.button`
+   display: flex;
+   justify-content: center;
+   align-items: center;
    background-color: ${colors.primary};
    width: 82%;
    height: 55px;
@@ -35,12 +39,91 @@ const ConnexionButtonStyle = styled.button`
    }
 `;
 
-function Form({ user, setUser }) {
+const rotate = keyframes`
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+    transform: rotate(360deg);
+    }
+`;
+
+const ConnexionLoadingStyle = styled.div`
+   width: 30px;
+   height: 30px;
+   border-radius: 30px;
+   padding: 7px;
+   border: 3px solid ${colors.white};
+   border-bottom-color: transparent;
+   animation: ${rotate} 1s infinite linear;
+`;
+
+function Form() {
    const [mail, setMail] = useState('');
    const [errorMail, setErrorMail] = useState();
    const [errorPassword, setErrorPassword] = useState();
    const [password, setPassword] = useState('');
    const [messageError, setMessageError] = useState('');
+   const [dataLoading, setDataLoading] = useState(false);
+
+   let navigate = useNavigate();
+
+   const verif = () => {
+      const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      if (mail === '' || !mail) {
+         setMessageError('Vous devez saisir une adresse e-mail !');
+         setErrorMail(true);
+      } else if (!regexMail.test(mail)) {
+         setMessageError('Votre adresse e-mail contient une erreur !');
+         setErrorMail(true);
+      } else if (password === '' || !password) {
+         setMessageError('Vous devez saisir votre mot de passe !');
+         setErrorPassword(true);
+      } else {
+         setMessageError('');
+         setErrorMail(false);
+         setErrorPassword(false);
+      }
+   };
+
+   const send = (e) => {
+      e.preventDefault();
+      if (errorMail === false && errorPassword === false) {
+         async function fetchUser() {
+            try {
+               setDataLoading(true);
+               const response = await fetch(
+                  'http://localhost:20110/api/users/login',
+                  {
+                     method: 'POST',
+                     headers: {
+                        'Content-Type': 'application/json',
+                     },
+                     body: JSON.stringify({ mail: mail, password: password }),
+                  }
+               );
+               const userData = await response.json();
+
+               if (userData.error) {
+                  if (userData !== 'Votre compte a été bloqué !') {
+                     setErrorMail(true);
+                     setErrorPassword(true);
+                  }
+                  setMessageError(userData.error);
+               } else {
+                  localStorage.setItem('user', JSON.stringify(userData.user));
+                  localStorage.setItem('token', userData.token);
+                  navigate('/user/allposts');
+               }
+            } catch (err) {
+               console.log(err);
+            } finally {
+               setDataLoading(false);
+            }
+         }
+         fetchUser();
+      }
+   };
 
    return (
       <ConnexionFormStyle>
@@ -52,6 +135,7 @@ function Form({ user, setUser }) {
             setValue={setMail}
             error={errorMail}
             setError={setErrorMail}
+            setMessageError={setMessageError}
          />
          <Input
             type="password"
@@ -61,9 +145,17 @@ function Form({ user, setUser }) {
             setValue={setPassword}
             error={errorPassword}
             setError={setErrorPassword}
+            setMessageError={setMessageError}
          />
          <ConnexionErrorStyle>{messageError}</ConnexionErrorStyle>
-         <ConnexionButtonStyle>Connexion</ConnexionButtonStyle>
+         <ConnexionButtonStyle
+            onClick={(e) => {
+               verif();
+               send(e);
+            }}
+         >
+            {dataLoading === false ? 'Connexion' : <ConnexionLoadingStyle />}
+         </ConnexionButtonStyle>
       </ConnexionFormStyle>
    );
 }

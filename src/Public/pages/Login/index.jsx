@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import colors from '../../../utils/styles/colors';
@@ -31,13 +32,22 @@ const ConnexionTitleStyle = styled.h2`
 `;
 
 function Login() {
-   const [user, setUser] = useState();
+   let navigate = useNavigate();
+
+   useEffect(() => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const token = localStorage.getItem('token');
+
+      if (user && token) {
+         navigate('/user/allposts');
+      }
+   }, [navigate]);
 
    return (
       <ConnexionStyle>
          <ConnexionContainerStyle>
             <ConnexionTitleStyle>Connexion</ConnexionTitleStyle>
-            <Form user={user} setUser={setUser} />
+            <Form />
          </ConnexionContainerStyle>
       </ConnexionStyle>
    );
