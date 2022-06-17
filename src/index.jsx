@@ -6,7 +6,8 @@ import GlobalStyle from './utils/styles/base';
 import './utils/libs/fontawesome';
 
 import Public from './Public';
-import Auth from './Auth';
+import User from './User';
+import Admin from './Admin';
 import Footer from './Public/components/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,7 +17,8 @@ root.render(
          <GlobalStyle />
          <Routes>
             <Route exact path="/*" element={<Public />} />
-            <Route exact path="/auth/*" element={<Auth />} />
+            <Route exact path="/user/*" element={<User />} />
+            <Route exact path="/admin/*" element={<Admin />} />
          </Routes>
       </Router>
       <Footer />
