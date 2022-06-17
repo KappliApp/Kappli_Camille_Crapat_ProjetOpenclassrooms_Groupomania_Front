@@ -20,7 +20,7 @@ const CommentStyle = styled.div`
 
 const CommentStyle2 = styled.div`
    min-width: 22%;
-   background-color: ${colors.grey_dark};
+   background-color: ${colors.grey_light};
    border-radius: 15px;
    padding: 7px 9px 10px 9px;
 `;

@@ -10,7 +10,7 @@ const AllPostsStyle = styled.section`
    width: 100%;
    min-height: 78vh;
    padding: 50px 0 50px 0;
-   background-color: ${colors.grey_dark};
+   background-color: ${colors.grey_light};
    display: flex;
    flex-direction: column;
    justify-content: space-between;

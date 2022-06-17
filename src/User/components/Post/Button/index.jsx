@@ -18,7 +18,7 @@ const ButtonStyle = styled.div`
    height: 38px;
    &:hover {
       cursor: pointer;
-      background-color: ${colors.grey_dark};
+      background-color: ${colors.grey_light};
    }
    ${(props) => props.$blue && `color: #1281e7; font-weight: bold;`}
 `;

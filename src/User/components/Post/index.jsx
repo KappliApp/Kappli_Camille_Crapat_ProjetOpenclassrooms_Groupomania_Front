@@ -46,7 +46,7 @@ const HeaderOptionStyle = styled.div`
    border-radius: 5px;
    &:hover {
       cursor: pointer;
-      background-color: ${colors.grey_dark};
+      background-color: ${colors.grey_light};
    }
 `;
 

@@ -3,8 +3,8 @@ const colors = {
     secondary: '#D1515A',
     white: '#fff',
     black: '#000',
-    grey_light: '#f6f6f6',
-    grey_dark: '#6F6F6F',
+    grey_light: '#F1F1F1',
+    grey_dark: '#7E7E7E',
     ok: '#28B463',
     error: '#C0392B',
 }
