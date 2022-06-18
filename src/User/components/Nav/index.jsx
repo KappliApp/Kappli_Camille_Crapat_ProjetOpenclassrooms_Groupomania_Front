@@ -1,3 +1,4 @@
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import colors from '../../../utils/styles/colors';
@@ -27,13 +28,32 @@ const LiStyle = styled.li`
    align-items: center;
 `;
 
-function Nav() {
+function Nav({ user, setUser, token, setToken }) {
+   let navigate = useNavigate();
+   const signOut = (e) => {
+      e.preventDefault();
+      localStorage.clear();
+      navigate('/');
+      setUser('');
+      setToken('');
+   };
    return (
       <NavStyle>
          <UlStyle>
-            <LiStyle>Accueil</LiStyle>
-            <LiStyle>Tous les profiles</LiStyle>
-            <LiStyle>Paramètres</LiStyle>
+            <LiStyle>
+               <Link to="/user/allposts">Accueil</Link>
+            </LiStyle>
+            <LiStyle>
+               <Link to="/user/allprofiles">Tous les profiles</Link>
+            </LiStyle>
+            <LiStyle>
+               <Link to="/user/params">Paramètres</Link>
+            </LiStyle>
+            <LiStyle>
+               <a href="" onClick={(e) => signOut(e)}>
+                  Déconnexion
+               </a>
+            </LiStyle>
          </UlStyle>
       </NavStyle>
    );

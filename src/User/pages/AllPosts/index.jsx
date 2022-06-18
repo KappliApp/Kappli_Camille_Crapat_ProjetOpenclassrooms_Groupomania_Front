@@ -17,7 +17,7 @@ const AllPostsStyle = styled.section`
    align-items: center;
 `;
 
-function AllPosts() {
+function AllPosts({ user, setUser, token, setToken }) {
    return (
       <AllPostsStyle>
          <CreatePost />
