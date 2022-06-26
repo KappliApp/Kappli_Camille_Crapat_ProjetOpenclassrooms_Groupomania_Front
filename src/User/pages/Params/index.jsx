@@ -13,9 +13,9 @@ const AllParamsStyle = styled.section`
 `;
 
 const ParamsStyle = styled.div`
-   width: 50%;
+   width: 35%;
    border-radius: 20px;
-   padding: 20px 20px 3px 20px;
+   padding: 15px 15px 30px 15px;
    background-color: ${colors.white};
    margin: 15px auto 15px auto;
    display: flex;
@@ -25,28 +25,45 @@ const ParamsStyle = styled.div`
 
 const ParamsTitleStyle = styled.h2`
    font-size: 24px;
-   margin-bottom: 55px;
+   margin-bottom: 15px;
 `;
 
-const ParamsTextStyle = styled.p``;
+const ParamsTextStyle = styled.p`
+   font-size: 18px;
+   margin-bottom: 25px;
+   text-align: center;
+`;
 
-const ParamsButtonDelStyle = styled.button`
+const ParamsInputSecurityStyle = styled.input`
+   width: 65%;
+   height: 55px;
+   border-radius: 7px;
+   border: 1px solid ${colors.grey_dark};
+   padding-left: 15px;
+   font-size: 18px;
+   margin-bottom: 15px;
+   ${(res) => res.res === 'error' && `border: 1px solid ${colors.error}`}
+   ${(res) => res.res === 'ok' && `border: 1px solid ${colors.ok}`}
+`;
+
+const ParamsButtonStyle = styled.button`
    display: flex;
    justify-content: center;
    align-items: center;
-   background-color: ${colors.secondary};
-   width: 50%;
+   width: 65%;
    height: 55px;
    border-radius: 7px;
    border: 0;
    font-weight: bold;
    font-size: 18px;
    color: ${colors.white};
-   margin-top: 20px;
    cursor: pointer;
-   &:hover {
-      background-color: ${colors.secondary_light};
-   }
+   ${(props) =>
+      props.$isdelete &&
+      `background-color: ${colors.secondary}; &:hover {background-color: ${colors.secondary_light};}`}
+   ${(props) =>
+      props.$isok &&
+      `background-color: ${colors.primary}; &:hover {background-color: ${colors.primary_light};}`}
 `;
 
 function Params({ user, setUser, token, setToken }) {
@@ -57,6 +74,29 @@ function Params({ user, setUser, token, setToken }) {
          </ParamsStyle>
          <ParamsStyle>
             <ParamsTitleStyle>Sécurité</ParamsTitleStyle>
+            <ParamsTextStyle>
+               Vous pouvez modifier votre mot de passe. Il doit contenir au
+               moins 8 caractères, dont au minimum 1 majuscule, 1 minuscule, 1
+               chiffre et 1 caractère spécial
+            </ParamsTextStyle>
+            <ParamsInputSecurityStyle
+               type="password"
+               name="password"
+               placeholder="Votre ancien mot de passe"
+            />
+            <ParamsInputSecurityStyle
+               type="password"
+               name="password"
+               placeholder="Votre nouveau mot de passe"
+            />
+            <ParamsInputSecurityStyle
+               type="password"
+               name="password"
+               placeholder="Confirmez votre nouveau mot de passe"
+            />
+            <ParamsButtonStyle $isok>
+               Modifier mon mot de passe
+            </ParamsButtonStyle>
          </ParamsStyle>
          <ParamsStyle>
             <ParamsTitleStyle>Compte</ParamsTitleStyle>
@@ -64,7 +104,9 @@ function Params({ user, setUser, token, setToken }) {
                Vous pouvez désactiver votre compte. Pour le réactiver, contactez
                le service des Ressources Humaines
             </ParamsTextStyle>
-            <ParamsButtonDelStyle>Désactiver mon compte</ParamsButtonDelStyle>
+            <ParamsButtonStyle $isdelete>
+               Désactiver mon compte
+            </ParamsButtonStyle>
          </ParamsStyle>
       </AllParamsStyle>
    );
