@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
-import colors from '../../../../../utils/styles/colors';
+import colors from '../../../utils/styles/colors';
 
-import Input from './Input';
+import Input from '../Input';
 
 const ConnexionFormStyle = styled.form`
    width: 100%;

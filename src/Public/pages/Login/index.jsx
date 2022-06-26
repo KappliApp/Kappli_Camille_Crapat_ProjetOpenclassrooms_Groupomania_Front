@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import colors from '../../../utils/styles/colors';
 
-import Form from './components/Form';
+import Form from '../../components/Form';
 
 const ConnexionStyle = styled.div`
    background-color: ${colors.primary};
