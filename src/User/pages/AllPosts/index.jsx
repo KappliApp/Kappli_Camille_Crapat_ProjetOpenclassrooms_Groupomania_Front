@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import colors from '../../../utils/styles/colors';
 import posts from '../../posts';
 
-import CreatePost from './components/CreatePost';
+import CreatePost from '../../components/CreatePost';
 import Post from '../../components/Post';
 
 const AllPostsStyle = styled.section`

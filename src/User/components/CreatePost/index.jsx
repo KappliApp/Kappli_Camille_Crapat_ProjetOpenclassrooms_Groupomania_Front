@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import colors from '../../../../../utils/styles/colors';
+import colors from '../../../utils/styles/colors';
 
-import Profiles from '../../../../components/Profile';
+import Profiles from '../Profile';
 
 const CreatePostStyle = styled.div`
    width: 50%;
