@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Nav from './components/Nav';
 import AllPosts from './pages/AllPosts';
 import AllProfiles from './pages/AllProfiles';
+import Profile from './pages/Profile';
 import Params from './pages/Params';
 
 function User() {
@@ -48,6 +49,17 @@ function User() {
                path="allprofiles"
                element={
                   <AllProfiles
+                     user={user}
+                     setUser={setUser}
+                     token={token}
+                     setToken={setToken}
+                  />
+               }
+            />
+            <Route
+               path="profile"
+               element={
+                  <Profile
                      user={user}
                      setUser={setUser}
                      token={token}
