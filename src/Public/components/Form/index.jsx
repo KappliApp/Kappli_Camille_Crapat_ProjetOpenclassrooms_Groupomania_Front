@@ -35,7 +35,7 @@ const ConnexionButtonStyle = styled.button`
    margin-top: 20px;
    cursor: pointer;
    &:hover {
-      background-color: #1b3765;
+      background-color: ${colors.primary_light};
    }
 `;
 
