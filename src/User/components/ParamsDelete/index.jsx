@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 
 import colors from '../../../utils/styles/colors';
 
@@ -50,9 +51,72 @@ const ParamsButtonStyle = styled.button`
    }
 `;
 
+const rotate = keyframes`
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+    transform: rotate(360deg);
+    }
+`;
+
+const ConnexionLoadingStyle = styled.div`
+   width: 30px;
+   height: 30px;
+   border-radius: 30px;
+   padding: 7px;
+   border: 3px solid ${colors.white};
+   border-bottom-color: transparent;
+   animation: ${rotate} 1s infinite linear;
+`;
+
 function ParamsDelete({ user, setUser, token, setToken }) {
    const [messageErrorDelete, setMessageErrorDelete] = useState('');
    const [loadingDataDelete, setLoadingDataDelete] = useState(false);
+
+   let navigate = useNavigate();
+
+   const delAccount = (e) => {
+      e.preventDefault();
+
+      const userId = {
+         user_id: user.user_id,
+      };
+
+      async function fetchDel() {
+         try {
+            setLoadingDataDelete(true);
+
+            const response = await fetch(
+               'http://localhost:20110/api/users/delete/1',
+               {
+                  method: 'PUT',
+                  headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': 'Bearer ' + token, // prettier-ignore
+                  },
+                  body: JSON.stringify(userId),
+               }
+            );
+
+            const responseData = await response.json();
+
+            if (responseData.error) {
+               setMessageErrorDelete(responseData.error);
+            } else {
+               localStorage.clear();
+               setUser();
+               setToken('');
+               navigate('/');
+            }
+         } catch (err) {
+            console.log(err);
+         } finally {
+            setLoadingDataDelete(false);
+         }
+      }
+      fetchDel();
+   };
 
    return (
       <ParamsStyle>
@@ -62,7 +126,13 @@ function ParamsDelete({ user, setUser, token, setToken }) {
             service des Ressources Humaines
          </ParamsTextStyle>
          <ParamsErrorStyle>{messageErrorDelete}</ParamsErrorStyle>
-         <ParamsButtonStyle>Désactiver mon compte</ParamsButtonStyle>
+         <ParamsButtonStyle onClick={(e) => delAccount(e)}>
+            {loadingDataDelete === false ? (
+               'Désactiver mon compte'
+            ) : (
+               <ConnexionLoadingStyle />
+            )}
+         </ParamsButtonStyle>
       </ParamsStyle>
    );
 }
