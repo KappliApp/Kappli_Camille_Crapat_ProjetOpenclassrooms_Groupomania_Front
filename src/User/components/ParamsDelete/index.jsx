@@ -88,7 +88,7 @@ function ParamsDelete({ user, setUser, token, setToken }) {
             setLoadingDataDelete(true);
 
             const response = await fetch(
-               'http://localhost:20110/api/users/delete/1',
+               'http://localhost:20110/api/users/delete/' + user.user_id,
                {
                   method: 'PUT',
                   headers: {

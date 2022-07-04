@@ -62,6 +62,75 @@ function ParamsSecurity({ user, setUser, token, setToken }) {
    const [messageErrorSecurity, setMessageErrorSecurity] = useState('');
    const [loadingDataSecurity, setLoadingDataSecurity] = useState(false);
 
+   const modifySecurity = (e) => {
+      const regexPassword = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\&\#\@\+\=\$\£\€\%\*\µ\?\/\!\§]).{10,40}$/; // prettier-ignore
+      e.preventDefault();
+
+      if (
+         !password ||
+         password === '' ||
+         !newPassword ||
+         newPassword === '' ||
+         !confirmNewPassword ||
+         confirmNewPassword === ''
+      ) {
+         setMessageErrorSecurity("Vous n'avez pas saisi un champs !");
+         setErrorPassword(true);
+         setErrorNewPassword(true);
+         setErrorConfirmNewPassword(true);
+      } else if (!regexPassword.test(newPassword)) {
+         setMessageErrorSecurity("Votre mot de passe n'est pas assez fort !");
+         setErrorNewPassword(true);
+      } else if (newPassword !== confirmNewPassword) {
+         setMessageErrorSecurity('Les deux mot de passe sont différents !');
+         setErrorNewPassword(true);
+         setErrorConfirmNewPassword(true);
+      } else {
+         setMessageErrorSecurity('');
+         setErrorPassword(false);
+         setErrorNewPassword(false);
+         setErrorConfirmNewPassword(false);
+
+         async function fetchModifySecurity() {
+            const userData = {
+               user_id: user.user_id,
+               password: password,
+               newPassword: newPassword,
+            };
+            try {
+               setLoadingDataSecurity(true);
+
+               const response = await fetch(
+                  'http://localhost:20110/api/users/modifySecurity/' +
+                     user.user_id,
+                  {
+                     method: 'PUT',
+                     headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token, // prettier-ignore
+                     },
+                     body: JSON.stringify(userData),
+                  }
+               );
+
+               const data = await response.json();
+
+               if (data.error) {
+                  setMessageErrorSecurity(data.error);
+               }
+
+               console.log(data);
+            } catch (err) {
+               console.log(err);
+            } finally {
+               setLoadingDataSecurity(false);
+            }
+         }
+
+         fetchModifySecurity();
+      }
+   };
+
    return (
       <ParamsStyle>
          <ParamsTitleStyle>Sécurité</ParamsTitleStyle>
@@ -73,6 +142,7 @@ function ParamsSecurity({ user, setUser, token, setToken }) {
          <Input
             type="password"
             name="password"
+            placeholder="Votre ancien mot de passe"
             value={password}
             setValue={setPassword}
             error={errorPassword}
@@ -82,6 +152,7 @@ function ParamsSecurity({ user, setUser, token, setToken }) {
          <Input
             type="password"
             name="newPassword"
+            placeholder="Votre nouveau mot de passe"
             value={newPassword}
             setValue={setNewPassword}
             error={errorNewPassword}
@@ -91,6 +162,7 @@ function ParamsSecurity({ user, setUser, token, setToken }) {
          <Input
             type="password"
             name="confirmNewPassword"
+            placeholder="Confirmation du nouveau mot de passe"
             value={confirmNewPassword}
             setValue={setConfirmNewPassword}
             error={errorConfirmNewPassword}
@@ -98,7 +170,9 @@ function ParamsSecurity({ user, setUser, token, setToken }) {
             setMessageError={setMessageErrorSecurity}
          />
          <ParamsErrorStyle>{messageErrorSecurity}</ParamsErrorStyle>
-         <ParamsButtonStyle>Modifier mon mot de passe</ParamsButtonStyle>
+         <ParamsButtonStyle onClick={(e) => modifySecurity(e)}>
+            Modifier mon mot de passe
+         </ParamsButtonStyle>
       </ParamsStyle>
    );
 }
